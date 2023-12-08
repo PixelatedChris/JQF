@@ -38,6 +38,7 @@ import edu.berkeley.cs.jqf.fuzz.guidance.GuidanceException;
 import edu.berkeley.cs.jqf.fuzz.guidance.Result;
 import edu.berkeley.cs.jqf.fuzz.util.Coverage;
 import edu.berkeley.cs.jqf.instrument.tracing.events.TraceEvent;
+import edu.berkeley.cs.jqf.instrument.tracing.events.BranchEvent;
 
 /**
  * A front-end that only generates random inputs.
@@ -80,7 +81,7 @@ public class NoGuidance implements Guidance {
      */
     @Override
     public InputStream getInput() {
-        return Guidance.createInputStream(() -> random.nextInt(256));
+        return Guidance.createInputStream(() -> 200);
     }
 
     /**
@@ -138,7 +139,7 @@ public class NoGuidance implements Guidance {
      */
     @Override
     public Consumer<TraceEvent> generateCallBack(Thread thread) {
-        return getCoverage()::handleEvent;
+        return (event) -> {System.out.println(String.format("Thread %s produced an event %s", thread.getName(), event));};
     }
 
     /**
